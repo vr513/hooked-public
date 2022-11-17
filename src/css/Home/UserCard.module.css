@@ -1,0 +1,35 @@
+.mainUserCard{
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+    background: #fff;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+.mainUserCard:hover{
+    background-color: #26C6DA;
+}
+
+.userImg{
+    width: 50%;
+    margin: auto;;
+}
+
+.userText{
+    font-family: 'Poppins',sans-serif;
+    color:black;
+    width: 50%;
+    letter-spacing: 0.5px;
+    margin: auto;
+    padding: 1rem 1rem;
+    font-size: 1.5rem; 
+}
+
+.userTextInfo{
+    font-family: 'Poppins',sans-serif;
+    font-size: 0.8rem;
+}
+
+.userImageRef{
+    border-radius: 15px 0px 0px 15px;
+}

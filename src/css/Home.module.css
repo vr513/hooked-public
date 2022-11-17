@@ -1,0 +1,11 @@
+.mainHome{
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    background-color: black;
+}
+.conversationsContainer{
+    height: 100%;
+    width: 85vw;
+    padding: 5vh 2vw;
+}

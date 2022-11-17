@@ -1,0 +1,240 @@
+.titleMain{
+    font-size: 21px;
+    color: rgb(240, 240, 240);
+    line-height: 20px;
+    font-weight: 300;
+    text-transform: capitalize;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    background: none;
+}
+
+.mainSignup{
+    width: 100%;
+}
+
+.headSignupWrapper{
+    overflow-y: auto;
+    background-color: rgb(23, 23, 23);
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+
+}
+
+.signupWrapper{
+    border-top: 4px solid rgb(119, 119, 119);
+    border-radius: 4px;
+
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(35, 35, 35);
+    backdrop-filter: blur(10px);
+    align-items: center;
+    justify-content: center;
+    padding: 35px;
+    padding-top: 35px;
+    padding-right: 35px;
+    padding-bottom: 35px;
+    padding-left: 35px;
+    width: 500px;
+}
+
+.mainLogin{
+    width: 100%;
+}
+
+.mb{
+    align-items: center;
+    justify-content: center;
+    margin-top: 35px;
+    font-size: 12px;
+    color: rgb(171, 171, 171);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    line-height: normal;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    background: none;
+    font-family: Lato, sans-serif;
+}
+
+.input{
+    font: inherit;
+    letter-spacing: inherit;
+    color: currentcolor;
+    padding: 4px 0px 5px;
+    border: 0px;
+    box-sizing: content-box;
+    background: none;
+    margin: 0px;
+    -webkit-tap-highlight-color: transparent;
+    display: block;
+    min-width: 0px;
+    width: 100%;
+    animation-name: mui-auto-fill-cancel;
+    animation-duration: 10ms;
+    height: initial;
+}
+
+.signup{
+    text-decoration: none;
+    background-color: rgb(10, 100, 142);
+
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    outline: 0px;
+    border: 0px;
+    margin: 0px;
+    cursor: pointer;
+    user-select: none;
+    vertical-align: middle;
+    appearance: none;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.75;
+    letter-spacing: 0.02857em;
+    min-width: 64px;
+    padding: 6px 16px;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    color: rgb(255, 255, 255);
+    background-color: rgb(15, 144, 204);
+    box-shadow: rgb(0 0 0 / 20%) 0px 3px 1px -2px, rgb(0 0 0 / 14%) 0px 2px 2px 0px, rgb(0 0 0 / 12%) 0px 1px 5px 0px;
+    border-radius: 18px;
+    text-transform: capitalize;
+    font-family: Lato, sans-serif;
+    white-space: nowrap;
+}
+
+.last{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 15px 0px;
+}
+
+.cancel{
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    outline: 0px;
+    border: 0px;
+    margin: 0px;
+    user-select: none;
+    vertical-align: middle;
+    appearance: none;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.75;
+    letter-spacing: 0.02857em;
+    min-width: 64px;
+    padding: 6px 16px;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    color: rgb(255, 255, 255);
+    /* background-color: #444;
+    box-shadow: rgb(0 0 0 / 20%) 0px 3px 1px -2px, rgb(0 0 0 / 14%) 0px 2px 2px 0px, rgb(0 0 0 / 12%) 0px 1px 5px 0px; */
+    border-radius: 18px;
+    text-transform: capitalize;
+    font-family: Lato, sans-serif;
+    white-space: nowrap; 
+
+    cursor: pointer;
+    text-align: center;
+    color: rgb(240, 240, 240);
+}
+
+.ques{
+    font-family: Lato, sans-serif;
+    font-size: 12px;
+    color: rgb(171, 171, 171);
+    text-decoration: none;
+    text-overflow: ellipsis;
+    background: none;
+    width: 60%;
+}
+
+.anc{
+    font-family: Lato, sans-serif;
+    font-size: 12px;
+    color: rgb(171, 171, 171);
+    text-decoration: underline;
+    text-overflow: ellipsis;
+    background: none;
+    margin-left: 5px;
+}
+.anc:hover{
+    color: rgb(171, 171, 171) !important;
+}
+
+.cancelConfirmCont{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-items: center;
+    gap: 5px;
+}
+
+.input{
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.4375em;
+    letter-spacing: 0.00938em;
+    cursor: text;
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    border-radius: 4px;
+    background-color: rgb(29, 29, 29) !important;
+    color: rgb(171, 171, 171) !important;
+    font-family: Lato, sans-serif;
+    padding-left: 22px;
+    height: 40px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    box-sizing: border-box;
+}
+
+.forgor{
+    margin-top: 10px;
+    font-family: Lato, sans-serif;
+    font-size: 12px;
+    color: rgb(171, 171, 171);
+    text-decoration: none;
+    text-overflow: ellipsis;
+    background: none;
+    width: 60%;
+}
+
+.errDiv{
+    margin-left: 10px;
+}
+.customMainAlert{
+    margin-top: 35px;
+    margin-bottom: 0rem !important;
+    background-color: rgb(29, 29, 29) !important;
+}
+.customDanger{
+    border-color: #842029 !important;
+}
+.customSuccess{
+    border-color: #0f5132 !important;
+}

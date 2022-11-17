@@ -1,0 +1,50 @@
+.mainAction{
+    display: flex;
+    flex-direction: column;
+    width: 75vw;
+}
+
+.titleMain{
+    font-family: "Brush Script MT", cursive;
+    margin-top: 2rem;
+    width: 100%;
+    font-size: 50px;
+    font-weight: 500;
+    line-height: 25px;
+    text-align: center;
+    letter-spacing: 0.5px;
+    color: rgb(54, 103, 103);
+}                                       
+
+.cardContainer{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.ActionRow{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 2rem;
+    gap: 5rem
+}
+.iconContainer{
+    width: fit-content;
+    border-radius: 50%;
+    padding: 1rem;
+    box-shadow: 0 8px 20px 6px #ccc;
+}
+.iconContainer:hover{
+    cursor: pointer;
+}
+.actionIcon1{
+    font-size: 45px;
+    color: green;
+}
+.actionIcon2{
+    font-size: 45px;
+    color: red;
+}
