@@ -1,5 +1,6 @@
 import Home from "./screens/Home";
 import Login from "./screens/auth/login";
+import Login2 from "./screens/auth/login2";
 import Signup from "./screens/auth/signup";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./shared/PrivateRoute";
@@ -22,7 +23,7 @@ function App() {
             }
           />
           <Route exact path="/Signup" element={<Signup />} />
-          <Route exact path="/Login" element={<Login />} />
+          <Route exact path="/Login" element={<Login2 />} />
           <Route
             exact
             path="/"
