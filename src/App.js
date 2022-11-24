@@ -1,5 +1,4 @@
 import Home from "./screens/Home";
-import Login from "./screens/auth/login";
 import Login2 from "./screens/auth/login2";
 import Signup from "./screens/auth/signup";
 import { BrowserRouter, Route, Routes } from "react-router-dom";

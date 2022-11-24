@@ -170,3 +170,9 @@
     border-radius: 0px !important;
     box-shadow: none !important;
   }
+  .login_customMainAlert{
+    font-family: "Inter";
+    padding-top: 1rem !important;
+    padding-bottom: 0rem !important;
+    margin-bottom: 0rem !important;
+  }

@@ -82,7 +82,17 @@ const Login2 = () => {
         <div className="login_card">
           <Form className="login_page">
             <h1 className="login_signup">Log In</h1>
-
+            {showAlert && (
+              <Alert
+                variant="danger"
+                onClose={() => setShowAlert(false)}
+                className={`login_customMainAlert`}
+                dismissible
+              >
+                <Alert.Heading>Error</Alert.Heading>
+                <p>{alertMessage}</p>
+              </Alert>
+            )}
             <Form.Group className="login_txt_field" controlId="formBasicEmail">
               <Form.Control
                 className="login_field_input"
@@ -111,12 +121,12 @@ const Login2 = () => {
                 {formik.errors.password}
               </Form.Control.Feedback>
             </Form.Group>
-            <button 
-                className="login_btn"
-                disabled={formik.isSubmitting}
-                onClick={formik.handleSubmit}
+            <button
+              className="login_btn"
+              disabled={formik.isSubmitting}
+              onClick={formik.handleSubmit}
             >
-                Log In
+              Log In
             </button>
             <div className="login_log">
               Don't have an account?
