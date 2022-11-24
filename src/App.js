@@ -1,6 +1,7 @@
 import Home from "./screens/Home";
 import Login2 from "./screens/auth/login2";
 import Signup from "./screens/auth/signup";
+import Signup2 from "./screens/auth/signup2";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./shared/PrivateRoute";
 import Register from "./components/register";
@@ -21,7 +22,7 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route exact path="/Signup" element={<Signup />} />
+          <Route exact path="/Signup" element={<Signup2 />} />
           <Route exact path="/Login" element={<Login2 />} />
           <Route
             exact

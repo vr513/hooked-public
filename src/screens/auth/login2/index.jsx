@@ -93,7 +93,7 @@ const Login2 = () => {
                 <p>{alertMessage}</p>
               </Alert>
             )}
-            <Form.Group className="login_txt_field" controlId="formBasicEmail">
+            <Form.Group className="login-inp txt_field" controlId="formBasicEmail">
               <Form.Control
                 className="login_field_input"
                 type="email"
@@ -107,7 +107,7 @@ const Login2 = () => {
                 {formik.errors.email}
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className="login_txt_field" controlId="formBasicEmail">
+            <Form.Group className="login-inp txt_field" controlId="formBasicEmail">
               <Form.Control
                 className="login_field_input"
                 type="password"
