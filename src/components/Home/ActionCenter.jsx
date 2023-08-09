@@ -53,7 +53,11 @@ const ActionCenter = () => {
       data: bodyContent,
     };
     let response = await axios.request(reqOptions);
-    if (response.data.isUserMatch) {
+    const likesToMe = JSON.parse(userData.likestome);
+    const isUserMatch = likesToMe.find((uuid) => {
+      return uuid === currentCard.id
+    })
+    if (isUserMatch !== undefined) {
       await createDocument(currentCard.id);
       RefreshMatches();
     }

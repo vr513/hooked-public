@@ -1,34 +1,35 @@
 import React from "react";
-import styles from "../../css/register.module.css";
-import Button from "react-bootstrap/Button";
-import { useFormik } from "formik";
-import { Link, useNavigate, Navigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
 import * as Yup from "yup";
-import { Form, Alert, Image } from "react-bootstrap";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import styles from "../../css/register.module.css";
+import { useFormik } from "formik";
+import axios from "../../../src/axiosConfig";
+import {
+  Row,
+  Col,
+  Container,
+  Form,
+  Image,
+  Alert,
+  Button,
+  Modal,
+} from "react-bootstrap";
 import ReactSlider from "react-slider";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import axios from '../../../src/axiosConfig';
+import { useAuth } from "../../contexts/AuthContext";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 
-const Register = () => {
+const Update = () => {
   const nav = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const { Login, isLoggedIn , RefreshData } = useAuth();
-  const [showAlert, setShowAlert] = useState(false);
-  const [fileSrc, setFileSrc] = useState(null);
-  const [alertMessage, setAlertMessage] = useState(
-    "Invalid username or password"
-  );
-  const [submitting,setSubmitting] = useState(false);
+  const { userData, RefreshData, Logout } = useAuth();
+
+  const [submitting, setSubmitting] = useState(false);
+  const [fileSrc, setFileSrc] = useState(userData.picture);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required").typeError("Required"),
     gender: Yup.number().required("Gender is required").typeError("Required"),
-    genderPrefrence: Yup.number()
+    genderPreference: Yup.number()
       .required("Gender Preference is required")
       .typeError("Required"),
     ageRange: Yup.array().required("Required").typeError("Required"),
@@ -37,29 +38,41 @@ const Register = () => {
       .typeError("A number is required"),
     city: Yup.string().required("City is required").typeError("Required"),
     matchLocality: Yup.number().required("Required").typeError("Required"),
+    gradYear: Yup.number().required("Required").typeError("Number is required"),
+    collegeName: Yup.string().required("Required").typeError("Required"),
   });
 
-  const formik = useFormik({
-    initialValues: {
-      name: null,
-      gender: null,
-      genderPreference: null,
-      ageRange: null,
-      age: null,
-      city: null,
-      matchLocality: null,
-      image: null,
-      collegeName : null,
-      gradYear : null
-    },
-    validateOnChange: true,
-    enableReinitialize: true,
-    validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      await handleRegister();
-    },
-  });
+  const handleUpdateInfo = async () => {
+    setSubmitting(true);
+    const token = localStorage.getItem("token");
+    try {
+      const config = {
+        headers: {
+          Authorization: "JWT " + token,
+        },
+      };
+      let formdata = new FormData();
+      formdata.append("age", formik.values.age);
+      formdata.append("gender", formik.values.gender);
+      formdata.append("city", formik.values.city);
+      formdata.append("genderPreference", formik.values.genderPreference);
+      formdata.append("ageLimitUpper", formik.values.ageRange[1]);
+      formdata.append("ageLimitLower", formik.values.ageRange[0]);
+      formdata.append("matchLocality", formik.values.matchLocality);
+      formdata.append("username", formik.values.name);
+      formdata.append("file", formik.values.image);
+      formdata.append("gradYear", formik.values.gradYear);
+      formdata.append("collegeName", formik.values.collegeName);
 
+      const res = await axios.post("/update-info", formdata, config);
+      await RefreshData();
+      nav("/");
+      console.log(res);
+    } catch (err) {
+      console.error(err);
+      setSubmitting(false);
+    }
+  };
 
   const handleImageChange = (evt) => {
     console.log();
@@ -72,52 +85,84 @@ const Register = () => {
     }
   };
 
-  const handleRegister = async () => {
-    setSubmitting(true);
-    const token = localStorage.getItem('token');
+  const deleteAccount = async () => {
+    const token = localStorage.getItem("token");
+    const pictureRef2 = userData.picture;
+    
+    let headersList = {
+      Authorization: "JWT " + token,
+    };
+    let bodyContent = JSON.stringify({
+      pictureRef: pictureRef2,
+    });
+    let reqOptions = {
+      url: "/delete-user",
+      method: "POST",
+      headers: headersList,
+      data: bodyContent,
+    };
+
     try {
-      const config = {
-        headers: {
-          'Authorization': 'JWT ' + token,
-        }
-      }
-      let formdata = new FormData();
-      formdata.append('age', formik.values.age);
-      formdata.append('gender', formik.values.gender);
-      formdata.append('city', formik.values.city);
-      formdata.append('genderPreference', formik.values.genderPreference);
-      formdata.append('ageLimitUpper', formik.values.ageRange[1]);
-      formdata.append('ageLimitLower', formik.values.ageRange[0]);
-      formdata.append('matchLocality', formik.values.matchLocality);
-      formdata.append('username', formik.values.name);
-      formdata.append('file', formik.values.image);
-      formdata.append('gradYear', formik.values.gradYear);
-      formdata.append('collegeName', formik.values.collegeName);
-
-
-      const res = await axios.post('/register', formdata, config);
-      await RefreshData();
-      nav("/");
-      console.log(res);
+      let response = await axios.request(reqOptions);
+      Logout();
+      nav('/');
     } catch (err) {
       console.error(err);
-      setSubmitting(false);
     }
-  }
+  };
+
+  const handleClose = () => setShowDeleteModal(false);
+
+  const formik = useFormik({
+    initialValues: {
+      name: userData.username,
+      gender: userData.gender,
+      genderPreference: userData.match_gender_preference,
+      ageRange: [userData.age_limit_lower, userData.age_limit_upper],
+      age: userData.age,
+      city: userData.city,
+      matchLocality: userData.match_locality,
+      image: null,
+      collegeName: userData.college_name,
+      gradYear: userData.grad_year,
+    },
+    validateOnChange: true,
+    enableReinitialize: true,
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      await handleUpdateInfo();
+    },
+  });
 
   return (
     <>
       <>
+        <Modal show={showDeleteModal} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirm Delete user</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Are you sure you want to delete your account? This action cannot be
+            undone
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="danger" onClick={deleteAccount}>
+              Delete Account
+            </Button>
+          </Modal.Footer>
+        </Modal>
         <Form>
           <Row className={styles.customRow}>
             <Col>
-              {/* CSS */}
               <div className={styles.headLoginWrapper}>
                 <div className={styles.loginWrapper}>
                   <div className={styles.mainLogin}>
                     <div className={styles.mainFormContainer}>
                       <div className={styles.previewSectionContainer}>
-                        {fileSrc !== null && formik.values.image !== null ? (
+                        {fileSrc !== null ? (
                           <div className={styles.previewCont}>
                             <Image
                               className={styles.imgPreview}
@@ -202,50 +247,12 @@ const Register = () => {
                           </Form.Control.Feedback>
                         </Form.Group>
 
-                        {/* Age limit upper */}
-
-                        {/* <Form.Group
-                                                    className={styles.mb}
-                                                    controlId="formBasicEmail"
-                                                >
-                                                    <Form.Label>Show matches between</Form.Label>
-                                                    <Form.Range
-                                                        className={styles.input}
-                                                        max={100}
-                                                        min={0}
-                                                        name="ageLimit"
-
-                                                        onChange={(evt) => console.log(evt.target.value)}
-                                                        isInvalid={
-                                                            formik.touched.email && formik.errors.email
-                                                        }
-                                                    />
-                                                    <Form.Control.Feedback
-                                                        type="invalid"
-                                                        className={styles.errDiv}
-                                                    >
-                                                        {formik.errors.email}
-                                                    </Form.Control.Feedback>
-                                                </Form.Group> */}
-
-                        {/* Age limit lower */}
-
                         <Form.Group
                           className={styles.mb}
                           controlId="formBasicEmail"
                         >
                           <Form.Label>Show Matches Between</Form.Label>
-                          {/* <Form.Control
-                                                        className={styles.input}
-                                                        type="email"
-                                                        placeholder="Age limit lower"
-                                                        name="email"
-                                                        value={formik.values.email}
-                                                        onChange={formik.handleChange}
-                                                        isInvalid={
-                                                            formik.touched.email && formik.errors.email
-                                                        }
-                                                    /> */}
+
                           <ReactSlider
                             className={`${styles.input} ${styles.customRegister}`}
                             thumbClassName={styles.registerThumb}
@@ -303,32 +310,47 @@ const Register = () => {
                         </Form.Group>
 
                         <Form.Group className={styles.mb}>
-                            <Form.Label>Grad Year</Form.Label>
-                            <Form.Control
-                              className={styles.input}
-                              type="number"
-                              placeholder="Graduation Year"
-                              name="gradYear"
-                              value={formik.values.gradYear}
-                              onBlur={formik.handleBlur}
-                              onChange={formik.handleChange}
-                              isInvalid={
-                                formik.touched.gradYear && formik.errors.gradYear
-                              }
-                            />
-                            <Form.Control.Feedback
-                              type="invalid"
-                              className={styles.errDiv}
-                            >
-                              {formik.errors.gradYear}
-                            </Form.Control.Feedback>
-                          </Form.Group>
+                          <Form.Label>Grad Year</Form.Label>
+                          <Form.Control
+                            className={styles.input}
+                            type="number"
+                            placeholder="Graduation Year"
+                            name="gradYear"
+                            value={formik.values.gradYear}
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            isInvalid={
+                              formik.touched.gradYear && formik.errors.gradYear
+                            }
+                          />
+                          <Form.Control.Feedback
+                            type="invalid"
+                            className={styles.errDiv}
+                          >
+                            {formik.errors.gradYear}
+                          </Form.Control.Feedback>
+                        </Form.Group>
                       </div>
-
                     </div>
                   </div>
                 </div>
-                <Button onClick={formik.handleSubmit} disabled={submitting} className={styles.submitBtn} >Submit</Button>
+                <Button
+                  onClick={() => {
+                    formik.handleSubmit();
+                  }}
+                  disabled={submitting}
+                  className={styles.submitBtn}
+                >
+                  Update
+                </Button>
+                <Button
+                  onClick={() => {
+                    setShowDeleteModal(true);
+                  }}
+                  variant="danger"
+                >
+                  Delete
+                </Button>
               </div>
             </Col>
 
@@ -446,7 +468,7 @@ const Register = () => {
                               {formik.errors.city}
                             </Form.Control.Feedback>
                           </Form.Group>
-                          
+
                           <Form.Group className={styles.mb}>
                             <Form.Label>College Name</Form.Label>
                             <Form.Control
@@ -468,7 +490,6 @@ const Register = () => {
                               {formik.errors.collegeName}
                             </Form.Control.Feedback>
                           </Form.Group>
-                        
                         </div>
                       </div>
                     </div>
@@ -481,10 +502,10 @@ const Register = () => {
       </>
 
       {/* <div className={styles.forgor}>
-            Have you forgotton your password?
-        </div> */}
+                Have you forgotton your password?
+            </div> */}
     </>
   );
 };
 
-export default Register;
+export default Update;

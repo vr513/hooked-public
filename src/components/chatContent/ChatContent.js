@@ -13,67 +13,16 @@ import { useChat } from "../../contexts/ChatContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../shared/firebase";
 import { onValue, ref } from "firebase/database";
+import { Button , Modal } from "react-bootstrap";
 
 const ChatContent = ({ id }) => {
-  let key = 8;
-  const chatItms = [
-    {
-      key: 1,
-      image:
-        "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-      type: "",
-      msg: "Hi Tim, How are you?",
-    },
-    {
-      key: 2,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
-      type: "other",
-      msg: "I am fine.",
-    },
-    {
-      key: 3,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
-      type: "other",
-      msg: "What about you?",
-    },
-    {
-      key: 4,
-      image:
-        "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-      type: "",
-      msg: "Awesome these days.",
-    },
-    {
-      key: 5,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
-      type: "other",
-      msg: "Finally. What's the plan?",
-    },
-    {
-      key: 6,
-      image:
-        "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-      type: "",
-      msg: "what plan mate?",
-    },
-    {
-      key: 7,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
-      type: "other",
-      msg: "I'm taliking about the tutorial",
-    },
-  ];
-
   const { matchesData, userData } = useAuth();
 
   const [currUser, setCurrUser] = useState(null);
   const [chat, setChat] = useState([]);
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(true);
+  const [showModal , setShowModal] = useState(false);
 
   const messagesEndRef = useRef(null);
   const messageRef = useRef();
@@ -90,6 +39,10 @@ const ChatContent = ({ id }) => {
       setMsg("");
     }
   };
+
+  const handleUnmatchUser = () => {
+    
+  }
 
   useEffect(() => {
     if (!loading) {
@@ -124,8 +77,24 @@ const ChatContent = ({ id }) => {
     return <Loading />;
   }
 
+  const handleClose = () => setShowModal(false);
+
   return (
     <div className="main__chatcontent">
+      <Modal show={showModal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Unmatch</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to unmatch {currUser.username} ? This action cannot be undone</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="danger" onClick={handleClose}>
+            Unmatch
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <div className="content__header">
         <div className="blocks">
           <div className="current-chatting-user">
@@ -136,7 +105,7 @@ const ChatContent = ({ id }) => {
 
         <div className="blocks">
           <div className="settings">
-            <button className="btn-nobg">
+            <button className="btn-nobg" onClick={() => setShowModal(true)} >
               <i className="fa fa-cog"></i>
             </button>
           </div>

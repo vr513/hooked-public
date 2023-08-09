@@ -7,6 +7,7 @@ import PrivateRoute from "./shared/PrivateRoute";
 import Register from "./components/register";
 import Dashboard from "./components/chatBody/ChatBody";
 import Register2 from "./screens/Register2";
+import Update from "./components/update";
 import "./App.css";
 
 function App() {
@@ -39,8 +40,17 @@ function App() {
             path="/register"
             element={
               <PrivateRoute>
-                <Register2 />
-                </PrivateRoute>
+                <Register />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            exact
+            path="/update-info"
+            element={
+              <PrivateRoute>
+                <Update />
+              </PrivateRoute>
             }
           />
         </Routes>

@@ -248,3 +248,7 @@
   background-color:#26C6DA ;
   cursor: pointer
 }
+
+.chatlist__header a{
+  text-decoration: none !important;
+}
