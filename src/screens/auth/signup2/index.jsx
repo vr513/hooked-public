@@ -6,13 +6,13 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import Loading from "../../../shared/Loading";
 import React, { useState, useEffect } from "react";
-import signupBg from "../../../assets/auth.webp";
-import Layout from "../../../shared/Layout";
+import loginBg from "../../../assets/auth.png";
 
 const Signup2 = () => {
   const [alertType, setAlertType] = useState("success");
   const [alertHeading, setAlertHeading] = useState("Error");
   const [alertMessage, setAlertMessage] = useState("We have an Error");
+  //   const [alertClass, setAlertClass] = useState(styles.customSuccess);
   const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -57,7 +57,7 @@ const Signup2 = () => {
         setAlertType("danger");
         setAlertHeading("Error");
         setAlertMessage("User already Exists. Please Log in to continue");
-
+        
         setShowAlert(true);
       } else {
         setAlertType("danger");
@@ -79,89 +79,92 @@ const Signup2 = () => {
   }, []);
   return (
     <>
-      <Layout backgroundColor={"#b0d8da"} backgroundImage={signupBg}>
-        <Form className="login_page">
-          <h1 className="login_signup">Create An Account</h1>
-          {showAlert && (
-            <Alert
-              variant={alertType}
-              onClose={() => setShowAlert(false)}
-              className={`login_customMainAlert`}
-              dismissible
-            >
-              <Alert.Heading>Error</Alert.Heading>
-              <p>{alertMessage}</p>
-            </Alert>
-          )}
-          <Form.Group
-            className="signup-inp txt_field"
-          >
-            <Form.Control
-              className="login_field_input"
-              type="email"
-              placeholder="Email Address"
-              name="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              isInvalid={formik.touched.email && formik.errors.email}
-              isValid={formik.touched.email && !formik.errors.email}
-            />
-            <Form.Control.Feedback type="invalid" className={`login__errDiv`}>
-              {formik.errors.email}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group
-            className="signup-inp txt_field"
-          >
-            <Form.Control
-              className="login_field_input"
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              isInvalid={formik.touched.password && formik.errors.password}
-              isValid={formik.touched.password && !formik.errors.password}
-            />
-            <Form.Control.Feedback type="invalid" className={`login__errDiv`}>
-              {formik.errors.password}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group
-            className="signup-inp txt_field"
-          >
-            <Form.Control
-              className="login_field_input"
-              type="password"
-              placeholder="Confirm Password"
-              name="cpassword"
-              value={formik.values.cpassword}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              isInvalid={formik.touched.cpassword && formik.errors.cpassword}
-              isValid={formik.touched.cpassword && !formik.errors.cpassword}
-            />
-            <Form.Control.Feedback type="invalid" className={`login__errDiv`}>
-              {formik.errors.cpassword}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <button
-            className="login_btn"
-            disabled={formik.isSubmitting}
-            onClick={formik.handleSubmit}
-          >
-            Sign Up
-          </button>
-          <div className="login_log">
-            Already have an account?
-            <Link to={"/login"} className="login_footer_link">
-              Login
-            </Link>
+      <div className="login__background">
+        <div className="login__title">
+          <div className="login_head-cont">
+            <h1 className="login_head">HOOKED</h1>
           </div>
-        </Form>
-      </Layout>
+          <Image className="login_banner_img" src={loginBg} alt="image" />
+          {/* <img className="login_banner_img" src="third.png" alt="image" /> */}
+        </div>
+        <div className="login_card">
+          <Form className="login_page">
+            <h1 className="login_signup">Create An Account</h1>
+            {showAlert && (
+              <Alert
+                variant={alertType}
+                onClose={() => setShowAlert(false)}
+                className={`login_customMainAlert`}
+                dismissible
+              >
+                <Alert.Heading>Error</Alert.Heading>
+                <p>{alertMessage}</p>
+              </Alert>
+            )}
+            <Form.Group className="signup-inp txt_field" controlId="formBasicEmail">
+              <Form.Control
+                className="login_field_input"
+                type="email"
+                placeholder="Email Address"
+                name="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                isInvalid={formik.touched.email && formik.errors.email}
+                isValid={formik.touched.email && !formik.errors.email}
+              />
+              <Form.Control.Feedback type="invalid" className={`login__errDiv`}>
+                {formik.errors.email}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group className="signup-inp txt_field" controlId="formBasicEmail">
+              <Form.Control
+                className="login_field_input"
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                isInvalid={formik.touched.password && formik.errors.password}
+                isValid={formik.touched.password && !formik.errors.password}
+              />
+              <Form.Control.Feedback type="invalid" className={`login__errDiv`}>
+                {formik.errors.password}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group className="signup-inp txt_field" controlId="formBasicEmail">
+              <Form.Control
+                className="login_field_input"
+                type="password"
+                placeholder="Confirm Password"
+                name="cpassword"
+                value={formik.values.cpassword}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                isInvalid={formik.touched.cpassword && formik.errors.cpassword}
+                isValid={formik.touched.cpassword && !formik.errors.cpassword}
+              />
+              <Form.Control.Feedback type="invalid" className={`login__errDiv`}>
+                {formik.errors.cpassword}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <button
+              className="login_btn"
+              disabled={formik.isSubmitting}
+              onClick={formik.handleSubmit}
+            >
+              Sign Up
+            </button>
+            <div className="login_log">
+              Already have an account?
+              <Link to={"/login"} className="login_footer_link">
+                Login
+              </Link>
+            </div>
+          </Form>
+        </div>
+      </div>
     </>
   );
 };
