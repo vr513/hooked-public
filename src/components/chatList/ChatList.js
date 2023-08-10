@@ -4,7 +4,7 @@ import ChatListItems from "./ChatListItems";
 import { Image } from "react-bootstrap";
 import { FiLogOut } from "react-icons/fi";
 import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "../../axiosConfig";
 
 const ChatList = ({ handleViewChange }) => {
@@ -28,12 +28,10 @@ const ChatList = ({ handleViewChange }) => {
   return (
     <div className="main__chatlist">
       <div className="chatlist__header">
-        <Link to={"/update-info"}>
-          <div className={`userCont`}>
-            <Image src={userData.picture} fluid className={`userImageRef`} />
-            <h2 className={`userName`}>{userData.username}</h2>
-          </div>
-        </Link>
+        <div className={`userCont`}>
+          <Image src={userData.picture} fluid className={`userImageRef`} />
+          <h2 className={`userName`}>{userData.username}</h2>
+        </div>
         <h2 className={`conversationsHeading`}>Your matches</h2>
       </div>
       <div className="chatlist__items">

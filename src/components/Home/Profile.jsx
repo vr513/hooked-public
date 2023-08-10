@@ -6,7 +6,7 @@ import icon4 from "../../assets/icon4.jpg"
 import icon5 from "../../assets/icon5.jpg"
 import { FiLogOut } from 'react-icons/fi';
 import { useAuth } from '../../contexts/AuthContext';
-import { useNavigate , Link} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styles from '../../css/Home/Profile.module.css'
 import { useState } from 'react'
 import { useEffect } from 'react'

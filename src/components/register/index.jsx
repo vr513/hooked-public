@@ -43,20 +43,18 @@ const Register = () => {
     initialValues: {
       name: null,
       gender: null,
-      genderPreference: null,
+      genderPrefrence: null,
       ageRange: null,
       age: null,
       city: null,
       matchLocality: null,
       image: null,
-      collegeName : null,
-      gradYear : null
     },
     validateOnChange: true,
     enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      await handleRegister();
+      console.log(values);
     },
   });
 
@@ -72,7 +70,8 @@ const Register = () => {
     }
   };
 
-  const handleRegister = async () => {
+  const handleRegister = async (e) => {
+    e.preventDefault();
     setSubmitting(true);
     const token = localStorage.getItem('token');
     try {
@@ -85,14 +84,12 @@ const Register = () => {
       formdata.append('age', formik.values.age);
       formdata.append('gender', formik.values.gender);
       formdata.append('city', formik.values.city);
-      formdata.append('genderPreference', formik.values.genderPreference);
+      formdata.append('genderPrefrence', formik.values.genderPrefrence);
       formdata.append('ageLimitUpper', formik.values.ageRange[1]);
       formdata.append('ageLimitLower', formik.values.ageRange[0]);
       formdata.append('matchLocality', formik.values.matchLocality);
       formdata.append('username', formik.values.name);
       formdata.append('file', formik.values.image);
-      formdata.append('gradYear', formik.values.gradYear);
-      formdata.append('collegeName', formik.values.collegeName);
 
 
       const res = await axios.post('/register', formdata, config);
@@ -178,13 +175,13 @@ const Register = () => {
                           <Form.Label>Gender Preference</Form.Label>
                           <Form.Select
                             className={styles.input}
-                            name="genderPreference"
-                            value={formik.values.genderPreference}
+                            name="genderPrefrence"
+                            value={formik.values.genderPrefrence}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             isInvalid={
-                              formik.touched.genderPreference &&
-                              formik.errors.genderPreference
+                              formik.touched.genderPrefrence &&
+                              formik.errors.genderPrefrence
                             }
                           >
                             <option>
@@ -198,7 +195,7 @@ const Register = () => {
                             type="invalid"
                             className={styles.errDiv}
                           >
-                            {formik.errors.genderPreference}
+                            {formik.errors.genderPrefrence}
                           </Form.Control.Feedback>
                         </Form.Group>
 
@@ -301,34 +298,12 @@ const Register = () => {
                             {formik.errors.matchLocality}
                           </Form.Control.Feedback>
                         </Form.Group>
-
-                        <Form.Group className={styles.mb}>
-                            <Form.Label>Grad Year</Form.Label>
-                            <Form.Control
-                              className={styles.input}
-                              type="number"
-                              placeholder="Graduation Year"
-                              name="gradYear"
-                              value={formik.values.gradYear}
-                              onBlur={formik.handleBlur}
-                              onChange={formik.handleChange}
-                              isInvalid={
-                                formik.touched.gradYear && formik.errors.gradYear
-                              }
-                            />
-                            <Form.Control.Feedback
-                              type="invalid"
-                              className={styles.errDiv}
-                            >
-                              {formik.errors.gradYear}
-                            </Form.Control.Feedback>
-                          </Form.Group>
                       </div>
 
                     </div>
                   </div>
                 </div>
-                <Button onClick={formik.handleSubmit} disabled={submitting} className={styles.submitBtn} >Submit</Button>
+                <Button onClick={handleRegister} disabled={submitting} className={styles.submitBtn} >Submit</Button>
               </div>
             </Col>
 
@@ -429,7 +404,7 @@ const Register = () => {
                             <Form.Label>City</Form.Label>
                             <Form.Control
                               className={styles.input}
-                              type="text"
+                              type="city"
                               placeholder="City"
                               name="city"
                               value={formik.values.city}
@@ -446,29 +421,57 @@ const Register = () => {
                               {formik.errors.city}
                             </Form.Control.Feedback>
                           </Form.Group>
-                          
-                          <Form.Group className={styles.mb}>
-                            <Form.Label>College Name</Form.Label>
-                            <Form.Control
-                              className={styles.input}
-                              type="text"
-                              placeholder="College Name"
-                              name="collegeName"
-                              value={formik.values.collegeName}
-                              onBlur={formik.handleBlur}
-                              onChange={formik.handleChange}
-                              isInvalid={
-                                formik.touched.collegeName && formik.errors.city
-                              }
-                            />
-                            <Form.Control.Feedback
-                              type="invalid"
-                              className={styles.errDiv}
-                            >
-                              {formik.errors.collegeName}
-                            </Form.Control.Feedback>
-                          </Form.Group>
-                        
+
+                          {/* User Image */}
+
+                          {/* Pincode */}
+
+                          {/* <Form.Group
+                                                        className={styles.mb}
+                                                    >
+                                                        <Form.Label>Pincode</Form.Label>
+                                                        <Form.Control
+                                                            className={styles.input}
+                                                            type="email"
+                                                            placeholder="Pincode"
+                                                            name="email"
+                                                            value={formik.values.email}
+                                                            onChange={formik.handleChange}
+                                                            isInvalid={
+                                                                formik.touched.email && formik.errors.email
+                                                            }
+                                                        />
+                                                        <Form.Control.Feedback
+                                                            type="invalid"
+                                                            className={styles.errDiv}
+                                                        >
+                                                            {formik.errors.email}
+                                                        </Form.Control.Feedback>
+                                                    </Form.Group>
+
+                                                    <Form.Group
+                                                        className={styles.mb}
+                                                    >
+                                                        <Form.Label>Password*</Form.Label>
+                                                        <Form.Control
+                                                            className={styles.input}
+                                                            type="password"
+                                                            placeholder="Password"
+                                                            name="password"
+                                                            value={formik.values.password}
+                                                            onChange={formik.handleChange}
+                                                            isInvalid={
+                                                                formik.touched.password &&
+                                                                formik.errors.password
+                                                            }
+                                                        />
+                                                        <Form.Control.Feedback
+                                                            type="invalid"
+                                                            className={styles.errDiv}
+                                                        >
+                                                            {formik.errors.password}
+                                                        </Form.Control.Feedback>
+                                                    </Form.Group> */}
                         </div>
                       </div>
                     </div>

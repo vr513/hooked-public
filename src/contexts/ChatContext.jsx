@@ -33,20 +33,9 @@ const ChatProvider = ({ children }) => {
             userData.id > targetUserUid
                 ? targetUserUid + "-" + userData.id
                 : userData.id + "-" + targetUserUid;
-        let chatRef = ref(db,'chats/'+combinedId);
-        let snapshot = await get(chatRef);
-        let data = snapshot.val();
-        if(data === null || data === undefined){
-            try {
-                const res = await set(ref(db, 'chats/' + combinedId), {
-                    messageCount: 0
-                });
-                snapshot = await get(chatRef);
-                data = snapshot.val();
-            } catch (e) {
-                console.error(e);
-            }
-        }
+        const chatRef = ref(db,'chats/'+combinedId);
+        const snapshot = await get(chatRef);
+        const data = snapshot.val();
         await set(ref(db, 'chats/' + combinedId  + `/messages/${data.messageCount}`), {
             senderId : userData.id,
             messageValue : targetMessage
