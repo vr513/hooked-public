@@ -13,17 +13,19 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from '../../../src/axiosConfig';
+import app from '../../utils/firebase'
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const Register = () => {
   const nav = useNavigate();
   const [loading, setLoading] = useState(true);
-  const { Login, isLoggedIn , RefreshData } = useAuth();
+  const { Login, isLoggedIn, RefreshData } = useAuth();
   const [showAlert, setShowAlert] = useState(false);
   const [fileSrc, setFileSrc] = useState(null);
   const [alertMessage, setAlertMessage] = useState(
     "Invalid username or password"
   );
-  const [submitting,setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required").typeError("Required"),
@@ -52,7 +54,7 @@ const Register = () => {
     },
     validateOnChange: true,
     enableReinitialize: true,
-    validationSchema: validationSchema,
+    //validationSchema: validationSchema,
     onSubmit: async (values) => {
       console.log(values);
     },
@@ -80,19 +82,30 @@ const Register = () => {
           'Authorization': 'JWT ' + token,
         }
       }
-      let formdata = new FormData();
-      formdata.append('age', formik.values.age);
-      formdata.append('gender', formik.values.gender);
-      formdata.append('city', formik.values.city);
-      formdata.append('genderPrefrence', formik.values.genderPrefrence);
-      formdata.append('ageLimitUpper', formik.values.ageRange[1]);
-      formdata.append('ageLimitLower', formik.values.ageRange[0]);
-      formdata.append('matchLocality', formik.values.matchLocality);
-      formdata.append('username', formik.values.name);
-      formdata.append('file', formik.values.image);
+      console.log(formik.values)
+      const storage = getStorage(app);
+      const storageRef = ref(storage, formik.values.image.name);
+      const snapshot = await uploadBytes(storageRef, formik.values.image)
+      const url = await getDownloadURL(snapshot.ref);
 
+      // let formdata = new FormData();
+      // formdata.append('age', formik.values.age);
+      // formdata.append('gender', formik.values.gender);
+      // formdata.append('city', formik.values.city);
+      // formdata.append('genderPrefrence', formik.values.genderPrefrence);
+      // formdata.append('ageLimitUpper', formik.values.ageRange[1]);
+      // formdata.append('ageLimitLower', formik.values.ageRange[0]);
+      // formdata.append('matchLocality', formik.values.matchLocality);
+      // formdata.append('username', formik.values.name);
+      // formdata.append('file', formik.values.image);
 
-      const res = await axios.post('/register', formdata, config);
+      const { age, gender, city, genderPrefrence, matchLocality, name, collegeName, gradYear, ...rest } = formik.values;
+
+      const res = await axios.post('/register', {
+        age, gender, city, genderPrefrence, matchLocality, username: name, file: url, collegeName, gradYear,
+        ageLimitUpper: formik.values.ageRange[1],
+        ageLimitLower: formik.values.ageRange[0]
+      }, config);
       await RefreshData();
       nav("/");
       console.log(res);
@@ -291,6 +304,28 @@ const Register = () => {
                             <option value="2">Everyone</option>
                           </Form.Select>
 
+                          <Form.Group className={styles.mb}>
+                            <Form.Label>College Name</Form.Label>
+                            <Form.Control
+                              className={styles.input}
+                              type="text"
+                              placeholder="College name"
+                              name="collegeName"
+                              value={formik.values.collegeName}
+                              onBlur={formik.handleBlur}
+                              onChange={formik.handleChange}
+                              isInvalid={
+                                formik.touched.collegeName && formik.errors.collegeName
+                              }
+                            />
+                            <Form.Control.Feedback
+                              type="invalid"
+                              className={styles.errDiv}
+                            >
+                              {formik.errors.collegeName}
+                            </Form.Control.Feedback>
+                          </Form.Group>
+
                           <Form.Control.Feedback
                             type="invalid"
                             className={styles.errDiv}
@@ -419,6 +454,28 @@ const Register = () => {
                               className={styles.errDiv}
                             >
                               {formik.errors.city}
+                            </Form.Control.Feedback>
+                          </Form.Group>
+
+                          <Form.Group className={styles.mb}>
+                            <Form.Label>Graduation Year</Form.Label>
+                            <Form.Control
+                              className={styles.input}
+                              type="number"
+                              placeholder="Grad Year"
+                              name="gradYear"
+                              value={formik.values.gradYear}
+                              onBlur={formik.handleBlur}
+                              onChange={formik.handleChange}
+                              isInvalid={
+                                formik.touched.gradYear && formik.errors.gradYear
+                              }
+                            />
+                            <Form.Control.Feedback
+                              type="invalid"
+                              className={styles.errDiv}
+                            >
+                              {formik.errors.gradYear}
                             </Form.Control.Feedback>
                           </Form.Group>
 

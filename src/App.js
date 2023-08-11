@@ -1,12 +1,10 @@
 import Home from "./screens/Home";
 import Login2 from "./screens/auth/login2";
-import Signup from "./screens/auth/signup";
 import Signup2 from "./screens/auth/signup2";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./shared/PrivateRoute";
 import Register from "./components/register";
 import Dashboard from "./components/chatBody/ChatBody";
-import Register2 from "./screens/Register2";
 import "./App.css";
 
 function App() {
@@ -39,7 +37,7 @@ function App() {
             path="/register"
             element={
               <PrivateRoute>
-                <Register2 />
+                <Register />
                 </PrivateRoute>
             }
           />
